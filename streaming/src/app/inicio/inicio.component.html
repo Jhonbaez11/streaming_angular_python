@@ -1,0 +1,30 @@
+<div class="container">
+  <h1 *ngIf="tokenBool; else welcomeText">Hola, {{ getPrimerNombre() }}</h1>
+  <div class="description">
+    <p>
+      ¡Bienvenido a nuestra aplicación de gestión de servicios de streaming! Nuestro objetivo es ofrecerte una plataforma sencilla y eficiente para administrar tus servicios de streaming contratados. Con nuestra aplicación, podrás:
+    </p>
+    <ul class="feature-list">
+      <li>Asignar y gestionar los servicios de streaming de tus usuarios de manera fácil y rápida.</li>
+      <li>Llevar un registro detallado de los pagos realizados por cada usuario para cada servicio contratado.</li>
+      <li>Simplificar tu proceso de gestión y mantener un control completo sobre los servicios de streaming en un solo lugar.</li>
+    </ul>
+    <p>
+      Explora todas las funcionalidades y comienza a disfrutar de una experiencia de gestión de servicios de streaming sin complicaciones.
+    </p>
+  </div>
+  <ng-template #welcomeText>
+    <h1>Iniciar sesión</h1>
+  </ng-template>
+  <form (ngSubmit)="login()" *ngIf="!tokenBool">
+    <div class="mb-3">
+      <label for="correo" class="form-label">Correo electrónico:</label>
+      <input type="correo" class="form-control" id="correo" name="correo" required [(ngModel)]="correo">
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Contraseña:</label>
+      <input type="password" class="form-control" id="password" name="password" required [(ngModel)]="password">
+    </div>
+    <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+  </form>
+</div>

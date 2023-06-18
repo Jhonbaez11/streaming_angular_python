@@ -1,0 +1,103 @@
+<div class="container">
+    <div class="row">
+      <div class="col-9">
+        <table class="table" style="text-align: center;">
+          <thead>
+            <tr>              
+              <th scope="col">Usuario</th>
+              <th scope="col">Streaming</th>
+              <th scope="col">Perfiles Contratados</th>
+              <th scope="col">Cuenta Completa</th>
+              <th scope="col">Usuario Servicio</th>
+              <th scope="col">Contraseña Servicio</th>
+              <th scope="col"><!-- Agrega el botón "Crear Suscripción" -->
+                <!--<button type="button" class="btn btn-success" (click)="crearSuscripcion()">Crear Suscripción</button></th>-->
+                <button class="btn btn-success" (click)="openModal(true)">Nuevo</button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let suscripcion of suscripciones" (click)="selectSuscripcion(suscripcion)">              
+              <td>{{ getNombreCompleto(suscripcion.id_usuario) }}</td>
+              <td>{{ getNombreStreaming(suscripcion.id_streaming) }}</td>
+              <td>{{ suscripcion.perfiles_contratados }}</td>
+              <td>{{ suscripcion.cuenta_completa ? 'Sí' : 'No' }}</td>
+              <td>{{ suscripcion.usuario_servicio }}</td>
+              <td>{{ suscripcion.password_servicio }}</td>
+              <td>
+                <button class="btn btn-primary btn-sm" (click)="openModal(false)">Ver Detalles</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-3">
+      </div>
+    </div>
+  </div>
+  
+  <!-- Agrega un div para la ventana modal -->
+  <div class="modal" tabindex="-1" role="dialog" [ngClass]="{ 'd-block': showModal }">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{ modoCrear() ? 'Crear Suscripción' : 'Actualizar Suscripción' }}</h5>
+        </div>
+        <div class="modal-body">
+          <h2>{{ getNombreCompleto(selectedSuscripcion.id_usuario) }} - {{ getNombreStreaming(selectedSuscripcion.id_streaming) }}</h2>
+          <div class="form-group">
+            <label>Usuario:</label>
+            <select class="form-control" [(ngModel)]="selectedSuscripcion.id_usuario" name="id_usuario" *ngIf="modoCrear()">
+              <option *ngFor="let usuario of usuarios" [value]="usuario.usuario_id">{{ getNombreCompleto(usuario.usuario_id) }}</option>
+            </select>
+            <input type="text" class="form-control" [(ngModel)]="selectedSuscripcion.id_usuario" name="id_usuario" *ngIf="!modoCrear()" readonly>
+          </div>
+          <div class="form-group">
+            <label>Streaming:</label>
+            <select class="form-control" [(ngModel)]="selectedSuscripcion.id_streaming" name="id_streaming" *ngIf="modoCrear()">
+              <option *ngFor="let stream of streaming" [value]="stream.streaming_id">{{ getNombreStreaming(stream.streaming_id) }}</option>
+            </select>
+            <input type="text" class="form-control" [(ngModel)]="selectedSuscripcion.id_streaming" name="id_streaming" *ngIf="!modoCrear()" readonly>
+          </div>
+          <div class="form-group">
+            <label for="perfilesContratados">Perfiles Contratados:</label>
+            <input type="text" class="form-control" id="perfilesContratados" [(ngModel)]="selectedSuscripcion && selectedSuscripcion.perfiles_contratados">
+          </div>
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="cuentaCompleta" [(ngModel)]="selectedSuscripcion && selectedSuscripcion.cuenta_completa">
+            <label class="form-check-label" for="cuentaCompleta">Cuenta Completa</label>
+          </div>
+          <div class="form-group">
+            <label for="usuarioServicio">Usuario Servicio:</label>
+            <input type="text" class="form-control" id="usuarioServicio" [(ngModel)]="selectedSuscripcion && selectedSuscripcion.usuario_servicio">
+          </div>
+          <div class="form-group">
+            <label for="passwordServicio">Contraseña Servicio:</label>
+            <input type="text" class="form-control" id="passwordServicio" [(ngModel)]="selectedSuscripcion && selectedSuscripcion.password_servicio">
+          </div>
+          <div class="form-group">
+            <label for="fechaCreacion">Fecha Creación:</label>
+            <input type="text" class="form-control" id="fechaCreacion" [(ngModel)]="selectedSuscripcion && selectedSuscripcion.fecha_creacion" readonly>
+          </div>
+          <div class="form-group">
+            <label for="usuarioCreacion">Usuario Creación:</label>
+            <input type="text" class="form-control" id="usuarioCreacion" [(ngModel)]="selectedSuscripcion && selectedSuscripcion.usuario_creacion" readonly>
+          </div>
+          <div class="form-group">
+            <label for="fechaActualizacion">Fecha Actualización:</label>
+            <input type="text" class="form-control" id="fechaActualizacion" [(ngModel)]="selectedSuscripcion && selectedSuscripcion.fecha_actualizacion" readonly>
+          </div>
+          <div class="form-group">
+            <label for="usuarioActualizacion">Usuario Actualización:</label>
+            <input type="text" class="form-control" id="usuarioActualizacion" [(ngModel)]="selectedSuscripcion && selectedSuscripcion.usuario_actualizacion" readonly>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" *ngIf="modoCrear()" (click)="crearSuscripcion()">Crear</button>
+          <button type="button" class="btn btn-warning" *ngIf="modoActualizar()" (click)="updateSuscripcion()">Actualizar</button>
+          <button type="button" class="btn btn-danger" (click)="showConfirmationAlert()">Eliminar</button>
+          <button type="button" class="btn btn-dark" (click)="closeModal()">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>

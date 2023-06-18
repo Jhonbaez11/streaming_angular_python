@@ -1,0 +1,119 @@
+<div class="container">
+    <div class="row">
+      <div class="col-9">
+        <table class="table" style="text-align: center;">
+          <thead>
+            <tr>              
+              <th scope="col">Primer Nombre</th>
+              <th scope="col">Primer Apellido</th>
+              <th scope="col">Correo</th>
+              <th scope="col">Teléfono</th>
+              <th scope="col"><button class="btn btn-success" (click)="openModal(true)">Nuevo</button></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let usuario of usuarios" (click)="selectUsuario(usuario)">              
+              <td>{{ usuario.primer_nombre }}</td>
+              <td>{{ usuario.primer_apellido }}</td>
+              <td>{{ usuario.correo }}</td>
+              <td>{{ usuario.telefono }}</td>
+              <td>
+                <button class="btn btn-primary btn-sm" (click)="openModal(false)">Ver Detalles</button>
+              </td>              
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-3">
+      </div>
+    </div>
+  </div>
+  
+  <!-- Agrega un div para la ventana modal -->
+  <div class="modal" tabindex="-1" role="dialog" [ngClass]="{ 'd-block': showModal }">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{ modoEdicion ? 'Actualizar Usuario' : 'Crear Usuario' }}</h5>
+          <!--<button type="button" class="close" aria-label="Close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+          </button>-->
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col">              
+              <h6><strong>Id:</strong></h6>              
+              <input type="text" class="form-control" [(ngModel)]="selectedUsuario && selectedUsuario.usuario_id" (ngModelChange)="selectedUsuario.usuario_id = $event">
+            </div>
+            <div class="col">
+              <h6><strong>Primer Nombre:</strong></h6>
+              <input type="text" class="form-control" [(ngModel)]="selectedUsuario && selectedUsuario.primer_nombre" (ngModelChange)="selectedUsuario.primer_nombre = $event">
+            </div>
+            <div class="col">
+              <h6><strong>Segundo Nombre:</strong></h6>
+              <input type="text" class="form-control" [(ngModel)]="selectedUsuario && selectedUsuario.segundo_nombre" (ngModelChange)="selectedUsuario.segundo_nombre = $event">
+            </div>
+            <div class="col">
+              <h6><strong>Primer Apellido:</strong></h6>
+              <input type="text" class="form-control" [(ngModel)]="selectedUsuario && selectedUsuario.primer_apellido" (ngModelChange)="selectedUsuario.primer_apellido = $event">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <h6><strong>Segundo Apellido:</strong></h6>
+              <input type="text" class="form-control" [(ngModel)]="selectedUsuario && selectedUsuario.segundo_apellido" (ngModelChange)="selectedUsuario.segundo_apellido = $event">
+            </div>
+            <div class="col">
+              <h6><strong>Correo:</strong></h6>
+              <input type="text" class="form-control" [(ngModel)]="selectedUsuario && selectedUsuario.correo" (ngModelChange)="selectedUsuario.correo = $event">
+            </div>
+            <div class="col">
+              <h6><strong>Teléfono:</strong></h6>
+              <input type="text" class="form-control" [(ngModel)]="selectedUsuario && selectedUsuario.telefono" (ngModelChange)="selectedUsuario.telefono = $event">
+            </div>
+            <div class="col">
+              <h6><strong>Rol:</strong></h6>
+              <select class="form-control" [(ngModel)]="selectedUsuario && selectedUsuario.rol" (ngModelChange)="selectedUsuario.rol = $event">
+                <option value="1">Administrador</option>
+                <option value="2">Empleado</option>
+                <option value="3">Cliente</option>
+              </select>                        
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <h6><strong>Contraseña:</strong></h6>
+              <input type="text" class="form-control" [(ngModel)]="selectedUsuario && selectedUsuario.password" (ngModelChange)="selectedUsuario.password = $event">              
+            </div>
+            <div class="col"></div>
+            <div class="col"></div>
+            <div class="col"></div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <h6><strong>Fecha Creación:</strong></h6>              
+              <input type="text" class="form-control" [(ngModel)]="selectedUsuario && selectedUsuario.fecha_creacion" (ngModelChange)="selectedUsuario.fecha_creacion = $event" readonly>
+            </div>            
+            <div class="col">
+              <h6><strong>Usuario Creación:</strong></h6>
+              <input type="text" class="form-control" [(ngModel)]="selectedUsuario && selectedUsuario.usuario_creacion" (ngModelChange)="selectedUsuario.usuario_creacion = $event" readonly>
+            </div>
+            <div class="col">
+              <h6><strong>Fecha Actualización:</strong></h6>
+              <input type="text" class="form-control" [(ngModel)]="selectedUsuario && selectedUsuario.fecha_actualizacion" (ngModelChange)="selectedUsuario.fecha_actualizacion = $event" readonly>
+            </div>
+            <div class="col">
+              <h6><strong>Usuario Actualización:</strong></h6>
+              <input type="text" class="form-control" [(ngModel)]="selectedUsuario && selectedUsuario.usuario_actualizacion" (ngModelChange)="selectedUsuario.usuario_actualizacion = $event" readonly>
+            </div>
+          </div>          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" *ngIf="!modoEdicion" (click)="crearUsuario()">Crear</button>
+          <button type="button" class="btn btn-warning" *ngIf="modoEdicion" (click)="updateUsuario()">Actualizar</button>
+          <button type="button" class="btn btn-danger" (click)="showConfirmationAlert()">Eliminar</button>
+          <button type="button" class="btn btn-dark" (click)="closeModal()">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>

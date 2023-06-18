@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>NAB System 33</title>  
+</head>
+<body>
+  <div class="main-content">
+    <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+      <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">NAB System 33</a>
+      <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <!--<input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">-->
+      <div class="navbar-nav">
+        <div class="nav-item text-nowrap">
+          <a class="nav-link px-3" href="#" routerLink="/" *ngIf="!tokenBool">Login</a>
+        </div>
+      </div>
+      <div class="navbar-nav">
+        <div class="nav-item text-nowrap">
+          <a class="nav-link px-3" href="#" routerLink="/" *ngIf="tokenBool" (click)="logout()">Logout</a>
+        </div>
+      </div>
+    </header>
+
+    <!--MENU LATERAL-->
+    <div class="container-fluid">
+      <div class="row">
+        <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+          <div class="position-sticky pt-3">
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link active custom-nav-link" aria-current="page" (click)="handleMenuItemClick('inicio')" href="#">
+                  <i class="fa-solid fa-house" style="color: #000000;"></i>
+                  Inicio
+                </a>
+              </li>  
+              <li class="nav-item" *ngIf="getRol() === 1 || getRol() === 2">
+                <a class="nav-link custom-nav-link" (click)="handleMenuItemClick('datos')" href="#">
+                  <i class="fa-solid fa-database" style="color: #000000 ;"></i>
+                  Datos
+                </a>
+              </li>              
+              <li class="nav-item" *ngIf="getRol() === 1">
+                <a class="nav-link custom-nav-link" (click)="handleMenuItemClick('usuarios')" href="#">
+                  <i class="fa-solid fa-user" style="color: #000000;"></i>
+                  Usuarios
+                </a>
+              </li>
+              <li class="nav-item" *ngIf="getRol() === 1 || getRol() === 2">
+                <a class="nav-link custom-nav-link" (click)="handleMenuItemClick('servicios')" href="#">
+                  <i class="fa-solid fa-film" style="color: #000000;"></i>
+                  Servicios
+                </a>
+              </li> 
+              <li class="nav-item" *ngIf="getRol() === 1 || getRol() === 2">
+                <a class="nav-link custom-nav-link" (click)="handleMenuItemClick('suscripciones')" href="#">
+                  <i class="fa-sharp fa-solid fa-clipboard" style="color: #000000;"></i>
+                  Suscripciones
+                </a>
+              </li>    
+              <li class="nav-item" *ngIf="getRol() === 1 || getRol() === 2">
+                <a class="nav-link custom-nav-link" (click)="handleMenuItemClick('pagos')" href="#">
+                  <i class="fa-sharp fa-solid fa-money-bill" style="color: #000000;"></i>
+                  Pagos
+                </a>
+              </li>      
+            </ul>
+          </div>
+        </nav>
+      </div>
+      
+      <div class="row">
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">{{ selectedComponent === 'datos' ? datosTitle :selectedComponent === 'inicio' ? inicioTitle : selectedComponent === 'usuarios' ? usuariosTitle : selectedComponent === 'servicios' ? serviciosTitle :  selectedComponent === 'suscripciones' ? suscripccionTitle : selectedComponent === 'pagos' ? pagosTitle : 'Título' }}</h1>
+            <!--{{ getRol()}}-->
+            <div class="btn-toolbar mb-2 mb-md-0">
+              <div class="btn-group me-2">
+                <!--<button type="button" class="btn bt n-sm btn-outline-secondary">Exportar</button>-->
+              </div>
+              <!--<button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+                <span data-feather="calendar"></span>
+                Filtro
+              </button>-->
+            </div>
+          </div>    
+
+          <!--CONTENIDO DINAMICO-->
+          <div>
+            <ng-container *ngIf="selectedComponent === 'inicio'">
+              <app-inicio (tokenEmitter)="receiveToken($event)"></app-inicio>
+            </ng-container>
+            <ng-container *ngIf="selectedComponent === 'datos'">
+              <app-datos></app-datos>
+            </ng-container>            
+            <ng-container *ngIf="selectedComponent === 'usuarios'">
+              <app-usuarios></app-usuarios>
+            </ng-container>
+            <ng-container *ngIf="selectedComponent === 'servicios'">
+              <app-streaming></app-streaming>
+            </ng-container>
+            <ng-container *ngIf="selectedComponent === 'suscripciones'">
+              <app-suscripciones></app-suscripciones>
+            </ng-container>
+            <ng-container *ngIf="selectedComponent === 'pagos'">
+              <app-pagos></app-pagos>
+            </ng-container>
+            <!-- Agrega más ng-containers para otros componentes -->
+          </div>
+          <!--CONTENIDO DINAMICO-->      
+        </main>
+      </div>
+    </div>
+    <!--MENU LATERAL-->
+
+    <footer class="footer py-3 bg-dark text-white fixed-bottom">
+      <div class="container">
+        <span class="text-muted">© 2023 Nab System 33. Todos los derechos reservados.</span>
+      </div>
+    </footer>
+  </div>
+  
+  
+</body>
+</html>

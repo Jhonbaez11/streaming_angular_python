@@ -1,0 +1,70 @@
+<div class="container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Primer Nombre</th>
+        <th scope="col">Primer Apellido</th>
+        <th scope="col">Nombre Streaming</th>
+        <th scope="col">Valor Servicio</th>
+        <th scope="col">Valor Perfil</th>
+        <th scope="col">Perfiles Contratados</th>
+        <th scope="col">Cuenta Completa</th>
+        <th scope="col">Mes</th>
+        <th scope="col">Año</th>
+        <th scope="col">Total Pago</th>
+        <th scope="col">Total a Pagar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of datosFiltrados" [ngClass]="{'bg-danger': convertToNumber(data.total_pago) < convertToNumber(data.total_pagar), 'bg-success': convertToNumber(data.total_pago) >= convertToNumber(data.total_pagar)}">
+        <td>{{ data.primer_nombre }}</td>
+        <td>{{ data.primer_apellido }}</td>
+        <td>{{ data.nombre_streaming }}</td>   
+        <td>{{ data.valor_servicio | currency:'USD':'symbol':'1.0-2' }}</td>
+        <td>{{ data.valor_perfil | currency:'USD':'symbol':'1.0-2'  }}</td>       
+        <td>{{ data.perfiles_contratados }}</td>     
+        <td>{{ data.cuenta_completa ? 'Sí' : 'No'  }}</td>          
+        <td>{{ meses[data.mes - 1] }}</td>
+        <td>{{ data.anio }}</td>
+        <td>{{ data.total_pago | currency:'USD':'symbol':'1.0-2'  }}</td>
+        <td>{{ data.total_pagar | currency:'USD':'symbol':'1.0-2'  }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="form-group">
+    <label for="filtroNombre">Filtrar por Nombre:</label>
+    <input type="text" class="form-control" id="filtroNombre" [(ngModel)]="filtroNombre" (input)="aplicarFiltros()">
+  </div>
+
+  <div class="form-group">
+    <label for="filtroApellido">Filtrar por Primer Apellido:</label>
+    <input type="text" class="form-control" id="filtroApellido" [(ngModel)]="filtroApellido" (input)="aplicarFiltros()">
+  </div>
+
+  <div class="form-group">
+    <label for="filtroStreaming">Filtrar por Nombre Streaming:</label>
+    <input type="text" class="form-control" id="filtroStreaming" [(ngModel)]="filtroStreaming" (input)="aplicarFiltros()">
+  </div>
+
+  <div class="form-group">
+    <label for="filtroAnio">Filtrar por Año:</label>
+    <input type="number" class="form-control" id="filtroAnio" [(ngModel)]="filtroAnio" (input)="aplicarFiltros()">
+  </div>
+
+  <div class="form-group">
+    <label for="filtroMes">Filtrar por Mes:</label>
+    <select class="form-control" id="filtroMes" [(ngModel)]="filtroMes" (change)="aplicarFiltros()">
+      <option value="0">Todos</option>
+      <option *ngFor="let mes of meses; let i = index" [value]="i + 1">{{ mes }}</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="filtroDescuento">Filtrar por Descuento:</label>
+    <select class="form-control" id="filtroDescuento" [(ngModel)]="filtroDescuento" (change)="aplicarFiltros()">
+      <option value="false">Todos</option>
+      <option value="true">Con descuento</option>
+    </select>
+  </div>
+</div>

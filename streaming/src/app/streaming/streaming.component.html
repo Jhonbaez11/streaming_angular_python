@@ -1,0 +1,103 @@
+<div class="container">
+  <div class="row">
+    <div class="col-9">
+      <table class="table">
+    <thead>        
+      <tr>
+        <th scope="col">Nombre Servicio</th>
+        <th scope="col">Valor Servicio</th>
+        <th scope="col">Valor Perfil</th>
+        <th scope="col">Perfiles</th>
+        <th scope="col"><!-- Agrega el botón "Crear Usuario" -->
+          <!--<button type="button" class="btn btn-success" (click)="crearUsuario()">Crear Usuario</button></th>-->
+          <button class="btn btn-success" (click)="openModal(true)">Nuevo</button>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let streaming of streamings" (click)="selectStreaming(streaming)">          
+        <td>{{ streaming.nombre }}</td>
+        <td>{{ streaming.valor_servicio | currency:'USD':'symbol':'1.0-2' }}</td>
+        <td>{{ streaming.valor_perfil | currency:'USD':'symbol':'1.0-2' }}</td>
+        <td>{{ streaming.perfiles }}</td>
+        <td>
+          <button class="btn btn-primary btn-sm" (click)="openModal(false)">Ver Detalles</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+    </div>
+    <div class="col-3">
+    </div>
+  </div>
+</div>
+  
+
+<!-- Agrega un div para la ventana modal -->
+<div class="modal" tabindex="-1" role="dialog" [ngClass]="{ 'd-block': showModal }">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ modoEdicion ? 'Actualizar Usuario' : 'Crear Usuario' }}</h5>
+        <!--<button type="button" class="close" aria-label="Close" (click)="closeModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>-->
+      </div>
+      <div class="modal-body">
+        <div class="row">          
+          <div class="col">
+            <h6><strong>Nombre Servicio:</strong></h6>
+            <input type="text" class="form-control" [(ngModel)]="selectedStreaming && selectedStreaming.nombre" (ngModelChange)="selectedStreaming.nombre = $event">
+            <!--<select class="form-control" [(ngModel)]="selectedStreaming && selectedStreaming.nombre" (ngModelChange)="selectedStreaming.nombre = $event">
+              <option value="Amazon Prime Video">Amazon Prime Video</option>
+              <option value="Crunchyroll">Crunchyroll</option>
+              <option value="Disney+">Disney+</option>
+              <option value="HBO +">HBO +</option>
+              <option value="Magis TV">Magis TV</option>
+              <option value="Netflix">Netflix</option>
+              <option value="Star +">Star +</option>
+              <option value="Xbox Game Pass">Xbox Game Pass</option>
+            </select> -->     
+          </div>
+          <div class="col">
+            <h6><strong>Valor Servicio:</strong></h6>
+            <input type="text" class="form-control" [(ngModel)]="selectedStreaming && selectedStreaming.valor_servicio" (ngModelChange)="selectedStreaming.valor_servicio = $event">
+          </div>
+          <div class="col">
+            <h6><strong>Valor Perfil:</strong></h6>
+            <input type="text" class="form-control" [(ngModel)]="selectedStreaming && selectedStreaming.valor_perfil" (ngModelChange)="selectedStreaming.valor_perfil = $event">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <h6><strong>Número de Perfiles:</strong></h6>
+            <input type="text" class="form-control" [(ngModel)]="selectedStreaming && selectedStreaming.perfiles" (ngModelChange)="selectedStreaming.perfiles = $event">
+          </div>                   
+        </div>        
+        <div class="row">
+          <div class="col">
+            <h6><strong>Fecha Creación:</strong></h6>              
+            <input type="text" class="form-control" [(ngModel)]="selectedStreaming && selectedStreaming.fecha_creacion" (ngModelChange)="selectedStreaming.fecha_creacion = $event" readonly>
+          </div>            
+          <div class="col">
+            <h6><strong>Usuario Creación:</strong></h6>
+            <input type="text" class="form-control" [(ngModel)]="selectedStreaming && selectedStreaming.usuario_creacion" (ngModelChange)="selectedStreaming.usuario_creacion = $event" readonly>
+          </div>
+          <div class="col">
+            <h6><strong>Fecha Actualización:</strong></h6>
+            <input type="text" class="form-control" [(ngModel)]="selectedStreaming && selectedStreaming.fecha_actualizacion" (ngModelChange)="selectedStreaming.fecha_actualizacion = $event" readonly>
+          </div>
+          <div class="col">
+            <h6><strong>Usuario Actualización:</strong></h6>
+            <input type="text" class="form-control" [(ngModel)]="selectedStreaming && selectedStreaming.usuario_actualizacion" (ngModelChange)="selectedStreaming.usuario_actualizacion = $event" readonly>
+          </div>
+        </div>          
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" *ngIf="!modoEdicion" (click)="crearStreaming()">Crear</button>
+        <button type="button" class="btn btn-warning" *ngIf="modoEdicion" (click)="updateStreaming()">Actualizar</button>
+        <button type="button" class="btn btn-danger" (click)="showConfirmationAlert()">Eliminar</button>
+        <button type="button" class="btn btn-dark" (click)="closeModal()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>

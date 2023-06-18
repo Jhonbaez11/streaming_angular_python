@@ -1,0 +1,120 @@
+<div class="container">
+    <div class="row">
+      <div class="col-9">
+        <table class="table" style="text-align: center;">
+          <thead>
+            <tr>              
+              <th scope="col">Nombre Completo</th>  
+              <th scope="col">Servicio</th>               
+              <th scope="col">Mes</th>
+              <th scope="col">Año</th>
+              <th scope="col">Pago</th>
+              <th scope="col"><!-- Agrega el botón "Crear Suscripción" -->
+                <!--<button type="button" class="btn btn-success" (click)="crearSuscripcion()">Crear Suscripción</button></th>-->
+                <button class="btn btn-success" (click)="openModal(true)">Nuevo</button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let pago of pagos" (click)="selectPago(pago)">   
+              <td>{{ getUsuarioSuscripcion(pago.id_suscripcion) }}</td>  
+              <td>{{ getStreamingSuscripcion(pago.id_suscripcion) }}</td> 
+              <td>{{ getNombreMes(pago.mes) }}</td>
+              <td>{{ pago.anio }}</td>
+              <td>{{ pago.pago | currency:'USD':'symbol':'1.0-2' }}</td>
+              <td>
+                <button class="btn btn-primary btn-sm" (click)="openModal(false)">Ver Detalles</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-3">
+      </div>
+    </div>
+  </div>
+  
+  <!-- Agrega un div para la ventana modal -->
+  <div class="modal" tabindex="-1" role="dialog" [ngClass]="{ 'd-block': showModal }">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{ modoCrear() ? 'Crear Pago' : 'Actualizar Pago' }}</h5>
+        </div>
+        <div class="modal-body">
+            <h2>{{ getUsuarioSuscripcion(selectedPago && selectedPago.id_suscripcion) }} - {{ getStreamingSuscripcion(selectedPago && selectedPago.id_suscripcion) }}</h2>
+          <div class="form-group">
+            <label for="pagos_id" *ngIf="!modoCrear()">ID:</label>
+            <input type="text" class="form-control" id="pagos_id" [(ngModel)]="selectedPago.pagos_id" name="pagos_id" *ngIf="modoCrear()" hidden>
+            <input type="text" class="form-control" id="pagos_id" [(ngModel)]="selectedPago.pagos_id" name="pagos_id" *ngIf="!modoCrear()" readonly>
+          </div>
+          <div class="form-group">
+            <label for="id_suscripcion">ID de Suscripción:</label>            
+            <select class="form-control" [(ngModel)]="selectedPago.id_suscripcion" name="id_suscripcion" *ngIf="modoCrear()">
+              <option *ngFor="let suscripcion of suscripciones" [value]="suscripcion.suscripciones_id">
+                {{ getNombreCompletoUsuario(suscripcion.id_usuario) }} - {{ getNombreStreaming(suscripcion.id_streaming) }}
+              </option>
+            </select>
+            <input type="text" class="form-control" id="id_suscripcion" [(ngModel)]="selectedPago.id_suscripcion" name="id_suscripcion" *ngIf="!modoCrear()" readonly>
+          </div>
+          <div class="form-group">
+            <label for="mes">Mes:</label>            
+            <select class="form-control" [(ngModel)]="selectedPago.mes" name="mes" *ngIf="modoCrear()">
+                <option value="1">Enero</option>
+                <option value="2">Febrero</option>
+                <option value="3">Marzo</option>
+                <option value="4">Abril</option>
+                <option value="5">Mayo</option>
+                <option value="6">Junio</option>
+                <option value="7">Julio</option>
+                <option value="8">Agosto</option>
+                <option value="9">Septiembre</option>
+                <option value="10">Octubre</option>
+                <option value="11">Noviembre</option>
+                <option value="12">Diciembre</option>
+              </select>
+            <input type="text" class="form-control" id="mes" [value]="getNombreMes(selectedPago.mes)" name="mes" *ngIf="!modoCrear()" readonly />
+          </div>
+          <div class="form-group">
+            <label for="anio">Año:</label>
+            <select class="form-control" [(ngModel)]="selectedPago.anio" name="anio" *ngIf="modoCrear()">
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+                <option value="2026">2026</option>
+                <option value="2027">2027</option>
+                <option value="2028">2028</option>
+                <option value="2029">2029</option>
+              </select>
+            <input type="text" class="form-control" id="anio" [(ngModel)]="selectedPago.anio" name="anio" *ngIf="!modoCrear()" readonly>
+          </div>
+          <div class="form-group">
+            <label for="pago">Pago:</label>
+            <input type="text" class="form-control" id="pago" [(ngModel)]="selectedPago.pago" name="pago">
+          </div>
+          <div class="form-group">
+            <label for="fechaCreacion">Fecha Creación:</label>
+            <input type="text" class="form-control" id="fechaCreacion" [(ngModel)]="selectedPago.fecha_creacion" readonly>
+          </div>
+          <div class="form-group">
+            <label for="usuarioCreacion">Usuario Creación:</label>
+            <input type="text" class="form-control" id="usuarioCreacion" [(ngModel)]="selectedPago.usuario_creacion" readonly>
+          </div>
+          <div class="form-group">
+            <label for="fechaActualizacion">Fecha Actualización:</label>
+            <input type="text" class="form-control" id="fechaActualizacion" [(ngModel)]="selectedPago.fecha_actualizacion" readonly>
+          </div>
+          <div class="form-group">
+            <label for="usuarioActualizacion">Usuario Actualización:</label>
+            <input type="text" class="form-control" id="usuarioActualizacion" [(ngModel)]="selectedPago.usuario_actualizacion" readonly>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" *ngIf="modoCrear()" (click)="crearPago()">Crear</button>
+          <button type="button" class="btn btn-warning" *ngIf="modoActualizar()" (click)="updatePago()">Actualizar</button>
+          <button type="button" class="btn btn-danger" (click)="showConfirmationAlert()">Eliminar</button>
+          <button type="button" class="btn btn-dark" (click)="closeModal()">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
