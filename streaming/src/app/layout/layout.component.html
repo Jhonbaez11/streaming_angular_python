@@ -36,31 +36,31 @@
                   Inicio
                 </a>
               </li>  
-              <li class="nav-item" *ngIf="getRol() === 1 || getRol() === 2">
+              <li class="nav-item" *ngIf="(getRol() === 1 || getRol() === 2) && getTokenBool() === true">
                 <a class="nav-link custom-nav-link" (click)="handleMenuItemClick('datos')" href="#">
                   <i class="fa-solid fa-database" style="color: #000000 ;"></i>
                   Datos
                 </a>
               </li>              
-              <li class="nav-item" *ngIf="getRol() === 1">
+              <li class="nav-item" *ngIf="(getRol() === 1) && getTokenBool() === true">
                 <a class="nav-link custom-nav-link" (click)="handleMenuItemClick('usuarios')" href="#">
                   <i class="fa-solid fa-user" style="color: #000000;"></i>
                   Usuarios
                 </a>
               </li>
-              <li class="nav-item" *ngIf="getRol() === 1 || getRol() === 2">
+              <li class="nav-item" *ngIf="(getRol() === 1 || getRol() === 2) && getTokenBool() === true">
                 <a class="nav-link custom-nav-link" (click)="handleMenuItemClick('servicios')" href="#">
                   <i class="fa-solid fa-film" style="color: #000000;"></i>
                   Servicios
                 </a>
               </li> 
-              <li class="nav-item" *ngIf="getRol() === 1 || getRol() === 2">
+              <li class="nav-item" *ngIf="(getRol() === 1 || getRol() === 2) && getTokenBool() === true">
                 <a class="nav-link custom-nav-link" (click)="handleMenuItemClick('suscripciones')" href="#">
                   <i class="fa-sharp fa-solid fa-clipboard" style="color: #000000;"></i>
                   Suscripciones
                 </a>
               </li>    
-              <li class="nav-item" *ngIf="getRol() === 1 || getRol() === 2">
+              <li class="nav-item" *ngIf="(getRol() === 1 || getRol() === 2) && getTokenBool() === true">
                 <a class="nav-link custom-nav-link" (click)="handleMenuItemClick('pagos')" href="#">
                   <i class="fa-sharp fa-solid fa-money-bill" style="color: #000000;"></i>
                   Pagos

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-inicio',
@@ -25,25 +26,36 @@ export class InicioComponent {
       correo: this.correo,
       password: this.password
     };
-
+  
     this.http.post<any>('http://localhost:5000/login', formData).subscribe(
       response => {
         const token = response.token;
         const rol = response.rol;
         const primer_nombre = response.primer_nombre;
-        window.localStorage.setItem('token', token); // Acceder a 'localStorage' a través de 'window'
+        window.localStorage.setItem('token', token);
         window.localStorage.setItem('rol', rol);
         window.localStorage.setItem('primer_nombre', primer_nombre);
-        console.log('token:', token);
-        console.log('rol:', rol);
-        console.log('primer_nombre:', primer_nombre);
-        this.tokenEmitter.emit(token);
-        console.log(window.localStorage.getItem('token')); // Acceder a 'localStorage' a través de 'window'
-        console.log(window.localStorage.getItem('rol')); // Acceder a 'localStorage' a través de 'window'
-        console.log(window.localStorage.getItem('primer_nombre')); // Acceder a 'localStorage' a través de 'window'
-        window.location.reload(); // Refresca página
+  
+        Swal.fire({
+          icon: 'success',
+          title: 'Inicio de sesión exitoso',
+          text: 'Has iniciado sesión correctamente.',
+          showConfirmButton: false,
+          timer: 1500
+        }).then(() => {
+          this.tokenEmitter.emit(token);
+          console.log(token);
+          window.location.reload();
+        });
       },
       error => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error de inicio de sesión',
+          text: 'Credenciales incorrectas. Inténtalo de nuevo.',
+          showConfirmButton: false,
+          timer: 1500
+        });
         console.error('Error de inicio de sesión:', error.error.message);
       }
     );

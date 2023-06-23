@@ -1,6 +1,6 @@
 <div class="container">
   <h1 *ngIf="tokenBool; else welcomeText">Hola, {{ getPrimerNombre() }}</h1>
-  <div class="description">
+  <div *ngIf="tokenBool" class="description">
     <p>
       ¡Bienvenido a nuestra aplicación de gestión de servicios de streaming! Nuestro objetivo es ofrecerte una plataforma sencilla y eficiente para administrar tus servicios de streaming contratados. Con nuestra aplicación, podrás:
     </p>

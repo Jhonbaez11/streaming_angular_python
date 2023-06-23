@@ -57,6 +57,10 @@ export class LayoutComponent {
     return rolString ? parseInt(rolString) : undefined;
   }
 
+  getTokenBool(): boolean | undefined {
+    return this.tokenBool;
+  }
+
   logout() {
     localStorage.removeItem('token');
     this.token = null;
